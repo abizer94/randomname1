@@ -19,7 +19,7 @@ jmp $
 [bits 16]
 load_k:
         mov bx,K_OFFSET
-        mov dh,2
+        mov dh,10
         mov dl,[BOOT_DRV]
         call disk_l
         ret
@@ -28,7 +28,7 @@ B_32Bit:
         call K_OFFSET
         jmp $
         
-BOOT_DRIVE db 0
+BOOT_DRV db 0
 times 510 - ($-$$) db 0
 
 dw 0xaa55 ; magic bytes to show that this is the mbr will actually write 55aa

@@ -39,5 +39,37 @@
 	ES:BX: Memory address to store the read data
 
 5. Switch to 32bit protected mode
+	a. Creating a GDT (Global Discriptor Table) basically in 32 bit system we divide memory into segments 	
+	that makes it easier to use we may dicide how many segments we want but conventionally we have 3 main
+	segments 1 null segment the first entry just has 00 2 code segment this is the segment where we will 
+	add code to be executed 3 data segment this has data to be stored
+	
+	A GDT has a pretty unintuitive and awkward structure imo maybe there is some 
+	genius logic to why it is setup like this or i simply didnt read the wiki entirly and missed the
+	part where they explained why
+	
+	For a specific segment 
+	bits 0-15  Segment limit /length 
+	bits 16-31 Base address(15:0) the first 16 bits of the base address
+	bits 32-39 Base address(16:23) the next 8 bits of the address
+	bits 40-43 Access byte (type privilage etc)
+	bits 44-47 Flags and last 4 bits of segment length
+	bits 48-55 Base address (24:31) 8 high bits of the address 
+	
+	
+	
+	b. after making the gdt we can finally switch to 32 bit and hand control over to the kernel
+		1. disable interrupts using cli
+		2. load gdt discriptor to lgdt redistor
+		3. enable protected mode using cr0
+		4. jmp to the code segment
+		5. setup all segment registers ds ss es fs gs to point to our data segment 
+		6. setup a new 32bit stack
+		7. jmp back to mbr and hand over to kernel
+		
+		
+6. Making all of these into one .bin file that we can boot from 
+
+	
 
  

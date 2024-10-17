@@ -32,8 +32,9 @@ but this is the closest translation i could think of
 	   on the last character cell of line 1
 	   
 	   similar logic is used in get cursor pos
-	   
-	d. 
+	
+	d. we need to make it scroll too so if offset is greater than 80*2*(number of rows we want to see on screeen)
+	if so we move all characters up one row and move cursor up one step
 	    
 	   
 	   

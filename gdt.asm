@@ -4,19 +4,19 @@ gdt_start:
 	
 gdt_code:
 	dw 0xffff    ;bits 0-15 
-	dw 0x0       ;bits 16-31
-	db 0x0       ;bits 32-39
+	dw 0x0000    ;bits 16-31
+	db 0x00      ;bits 32-39
 	db 10011010b ;bits 40-47 defining p dpl s e ed/c r/w a respectively 
 	db 11001111b ;bits 48 - 55 defining G d/b reserved avl segment len(4bits)
 	db 0x0       ;last part of address bits       
 
-gtd_data:
+gdt_data:
 	dw 0xffff
-	dw 0x0
-	db 0x0
+	dw 0x0000
+	db 0x00
 	db 10010010b ; p is present shows if it is available for use dpl shows privilage needed 0 is 
 	db 11001111b ;highest only kernel level s is system of code/data segment 1 meaning its not a system seg
-	db 0x0	     ;e is executable 0 meaning not executable 
+	db 0x00      ;e is executable 0 meaning not executable 
 		     ;ed/c is direction of growth ie is next entry on base +1 or base -1
 		     ;rw is read write 1 is writable
 		     ;a is whether this bit was accessed or not 
@@ -31,7 +31,7 @@ gtd_data:
 gdt_end:
 
 gdt_descriptor:
-	dw gtd_end - gdt_start -1 
+	dw gdt_end - gdt_start -1 
 	dd gdt_start
 	
 CODE_SEG equ gdt_code-gdt_start
