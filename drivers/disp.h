@@ -96,4 +96,9 @@ void print_s(char* s){
 	}
 	set_cursor(offset);
 }
+void nl(){
+	int offset = get_cursor();
+	offset = mov_offset_nl(offset);
+	set_cursor(offset);
+}
 

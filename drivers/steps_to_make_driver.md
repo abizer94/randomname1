@@ -9,7 +9,7 @@ char res = ax;
 obviously we cannot assign char res = ax  
 but this is the closest translation i could think of
 
-1. making a video driver (VGA since its simple) and doesnt need me to read the docs for nvidia and ryzen
+1. Making a video driver (VGA since its simple) and doesnt need me to read the docs for nvidia and ryzen
 	
 	a. in vga we have a lot of registers we can read and write to
 	but the communication is done via 2 registers mainly  
@@ -36,5 +36,41 @@ but this is the closest translation i could think of
 	d. we need to make it scroll too so if offset is greater than 80*2*(number of rows we want to see on screeen)
 	if so we move all characters up one row and move cursor up one step
 	    
-	   
-	   
+	    
+2. Making a keyboard drivern once again I will use a older version PS/2 keyboard since usb keyboards
+   have a much more complex structure with usb host controller to handle usb comms and a specific 
+   keyboard driver 
+
+	a. keyboard drivers are significantly more annoying to make than a vga driver since we need to setup a
+	IDT (interrupt discriptor table) basically with the PS/2 device there was a microcontroller that 
+	recieved the inputs stores info to port 0x60 and then sends an interrupt to the cpu
+	
+	b. The cpu looks up how it needs to handle an interrupt in the IDT so the IDT has 256 entries
+	 each 8 bytes long for each type of interrupt it can come across
+	 There are 3 types of entries it can have 
+	 1. Interrupt gates 
+	 2. Trap gates
+	 3. Task gates 
+	Interrupt and Trap gates can call custom handeler functions (ISR Interrupt service routine)
+	Task gates are used to switch bw tasks to multitask the current state of a process is saved in a TSS task state segment and the TSS of the other task is loaded up 
+	c. for this one we just need to do the Interrupts and not the rest
+	
+	info for interrupt gates 
+	1 offset 32 bit representation in memory address of the interrupt handler within the respective code seg
+	2 selector 16 bit selector code seg to jump to when invoking the handler this will be the kernel code seg
+	3 type 3 bits indicating gate type will be set to 110 for interrupt
+	4 1 bit sayinng if it is 32 bit code segment or not
+	5 2 bits showing privilage level we will set it to 00
+	6 1 bit showing if gate is active
+	7 some bits need to always be 0 in interrupt gates idk why 
+	
+	d. Making ISR for the keyboard
+	
+	the first 32 ISRs are reserved for CPU specific interrupts like exceptions and faults setting 
+	these up is important since its how we know where we messed up in the later steps of defining irqs 
+	
+	1 first we define a general isr handler in c it will extract all necessary info related to an 
+	interrupt and act accordingly 
+	a. we will just define a simple array that has string representation of all the interrupt numbers
+	
+	
