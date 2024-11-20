@@ -1,3 +1,4 @@
+#pragma once
 #define VGA_CTR_REG 0x3d4
 #define VGA_DATA_REG 0x3d5
 #define VGA_OFFSET_LOW 0x0f
@@ -8,7 +9,8 @@
 #define W_ON_B 0x0f
 
 
-unsigned char port_byte_in(unsigned short port){// First time using __asm__ syntax in steps_to_make_driver.md 
+unsigned char port_byte_in(unsigned short port){
+// First time using __asm__ syntax in steps_to_make_driver.md 
     unsigned char res;			
     __asm__("in %%dx,%%al":"=a"(res):"d"(port));
     return res;			      	   
