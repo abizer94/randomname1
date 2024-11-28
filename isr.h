@@ -2,7 +2,6 @@
 
 #include <stdint.h>
 
-/* ISRs reserved for CPU exceptions */
 extern void isr0();
 
 extern void isr1();

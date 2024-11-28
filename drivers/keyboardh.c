@@ -1,4 +1,3 @@
-#pragma once
 #include "disp.h"
 #include "../isr.h"
 
@@ -180,9 +179,6 @@ void print_letter(uint8_t scancode) {
             print_s("Space");
             break;
         default:
-            /* 'keuyp' event corresponds to the 'keydown' + 0x80
-             * it may still be a scancode we haven't implemented yet, or
-             * maybe a control/escape sequence */
             if (scancode <= 0x7f) {
                 print_s("Unknown key down");
             } else if (scancode <= 0x39 + 0x80) {

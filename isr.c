@@ -1,7 +1,9 @@
-#pragma once
 #include <stdint.h>
 #include "isr.h"
-#include "idt.c"
+#include "idt.h"
+#include "drivers/io.h"
+#include "drivers/disp.h"
+
 
 isr_t interrupt_handlers[256];
 
@@ -124,7 +126,7 @@ void irq_h(registers_t *r){
     
     port_byte_out(0x20,0x20); // sends end of instruction to PIC primary
     
-    if(r->int_no<40){
+    if(r->int_no>=40){
        port_byte_out(0xA0,0x20); // sends eoi to secondary PIC
     }    
     

@@ -40,7 +40,7 @@
 
 5. Switch to 32bit protected mode
 	a. Creating a GDT (Global Discriptor Table) basically in 32 bit system we divide memory into segments 	
-	that makes it easier to use we may dicide how many segments we want but conventionally we have 3 main
+	that makes it easier to use we may decide how many segments we want but conventionally we have 3 main
 	segments 1 null segment the first entry just has 00 2 code segment this is the segment where we will 
 	add code to be executed 3 data segment this has data to be stored
 	

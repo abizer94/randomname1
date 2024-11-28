@@ -1,19 +1,19 @@
-#include "./drivers/disp.h"
-//#include "./drivers/keyboard.h"
-//#include "isr.c"
-//#include "idt.c"
+#include "drivers/disp.h"
+#include "drivers/keyboard.h"
+#include "isr.h"
+#include "idt.h"
 
 
 void main() {
-    cls();
+    //cls();
     print_s("fcbdshcjbsdhjcfbdsh");
-    cls();
+    
     print_s("installing isrs \n");
-    //isr_install();
+    isr_install();
     print_s("enabeling external interrupts \n");
-    //asm volatile("sti");
+    asm volatile("sti");
     
     print_s("init keyboard");
-    //init_keyboard();
+    init_keyboard();
     
 }

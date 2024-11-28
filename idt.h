@@ -1,4 +1,5 @@
 #pragma once
+#include <stdint.h>
 #define low_16(address) (uint16_t)((address) & 0xFFFF)
 #define high_16(address) (uint16_t)(((address)>>16) & 0xFFFF)
 
@@ -16,7 +17,9 @@ typedef struct {
     uint32_t base;
 } __attribute__((packed)) idt_register_t;
 
+void set_idt_gate(int n, uint32_t handler);
 
+void load_idt();
 
 
 
