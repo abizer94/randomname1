@@ -1,6 +1,7 @@
 #include <stdint.h>
 #include <stddef.h>
 #include "mem.h"
+#include "drivers/disp.h"
 
 static uint8_t memoryarea[memsize]; //array we use uint8_t because its 1 byte long and makes lifer easier 
 static Node *start;
@@ -11,13 +12,20 @@ int allocate_first(){
 	start->size = memsize - node_size;
 	start->next = NULLN;
 	start->prev = NULLN;
+	nl();
+	print_s("chunk for dynamic memory allocated at ");
+	char addr[10];
+	stringaddr((char*)start,addr);
+	print_s(addr);
+	nl();
+	return 0;
 }
 
 void* findsmallestfree(Node *memarea ,size_t size){
 	Node *bestblk = (Node*) NULLN;
 	uint32_t bestblks = memsize + 1;
 	
-	Node *currblk = memarea;
+	Node *currblk = start;
 	while(currblk){
 		if((!currblk->flag)&&(currblk->size>=size+node_size)&&currblk->size<=bestblks){
 			bestblk = currblk;
@@ -62,42 +70,36 @@ void freee (void *p){
 	
 	curr->flag = 0;
 	
-	curr = mergenxtchk(curr);
+	curr = mergeprevchk(curr);
 	mergeprevchk(curr);
 }
 
-void *mergenxtchk(Node * curr){
+void *mergeprevchk(Node * curr){
 	Node *prevn = curr->prev;
 	if(prevn != NULLN && !prevn->flag){
-		prevn->size += curr->size;
-		prevn->size += node_size;
+		prevn->size += curr->size + node_size;
 		
 		prevn->next = curr->next;
 		if(curr->next != NULLN){
-			curr->next->prev = curr;
+			curr->next->prev = prevn;
 		}
 	
 	}
-	return curr;
+	return prevn;
 }
 
-void *mergeprevchk(Node *curr) {
-    Node *prev_mem_node = curr->prev;
-    if (prev_mem_node != NULLN && !prev_mem_node->flag) {
+void *mergenxtchk(Node *curr) {
+    Node *nxt = curr->next;
+    if (nxt != NULLN && !nxt->flag) {
     
-        prev_mem_node->size += curr->size;
-        prev_mem_node->size += node_size;
+        curr->size += nxt->size + node_size;
 
-        prev_mem_node->next = curr->next;
-        if (curr->next != NULLN) {
-            curr->next->prev = prev_mem_node;
+        curr->next = nxt->next;
+        if (nxt->next != NULLN) {
+            nxt->next->prev = curr;
         }
     }
 }
-
-
-
-
 
 
 

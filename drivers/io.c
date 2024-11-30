@@ -20,7 +20,6 @@ void stringaddr(char *ptr, char *buffer) {
     buffer[i++] = '0';
     buffer[i++] = 'x'; // Add "0x" prefix for hex representation
 
-    // If the address is 0, handle as a special case
     if (address == 0) {
         buffer[i++] = '0';
     } else {
@@ -36,5 +35,6 @@ void stringaddr(char *ptr, char *buffer) {
     }
 
     buffer[i] = '\0'; // Null-terminate the string
+    return;
 }
 
