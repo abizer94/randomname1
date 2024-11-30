@@ -20,7 +20,7 @@ jmp $
 [bits 16]
 load_k:
         mov bx,K_OFFSET
-        mov dh,26
+        mov dh,30
         mov dl,[BOOT_DRV]
         call disk_l
         ret

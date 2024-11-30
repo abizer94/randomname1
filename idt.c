@@ -15,5 +15,5 @@ void set_idt_gate(int n,uint32_t handler){
 void load_idt(){
     idt_reg.base = (uint32_t) &idt;
     idt_reg.limit = 256 * sizeof(idt_gate_t) - 1;
-    asm volatile("lidt (%0)": :"r"(&idt_reg));
+    asm volatile("lidt (%0)": :"r"(&idt_reg)); // volatile is a modifyer in c that tells the compiler that this instruction should not be optamised sometimes the compiler may remove certain instructions or it may remove it from loop and cache this stops it usually it may do this for instructions that have no dependencies 
 }

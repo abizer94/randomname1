@@ -31,7 +31,7 @@ kernel.elf: bl/kernel_entry.o ${OBJ_FILES}
 	$(LD) -m elf_i386 -o $@ -Ttext 0x1000 $^
 
 debug: os-image.bin kernel.elf
-	qemu-system-i386 -s -S -fda os-image.bin -d guest_errors,int &
+	qemu-system-i386 -s -S -fda os-image.bin -d guest_errors,int -device ahci &
 	i386-elf-gdb -ex "target remote localhost:1234" -ex "symbol-file kernel.elf"
 
 %.o: %.c ${HEADERS}

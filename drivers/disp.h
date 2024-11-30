@@ -32,8 +32,12 @@ int scr_ln(int offset);
 
 void cls();
 
+void print_back();
 
 void print_s(char* s);
 
+void print_c(char c);
+
 void nl();
 
+void pribnr();

@@ -77,8 +77,42 @@ void print_s(char* s){
 	}
 	set_cursor(offset);
 }
+
+void print_c(char c){
+int offset = get_cursor();
+		if(offset>=20*MAX_C*2){
+			offset = scr_ln(offset);
+		}
+		if(c=='\n'){
+			offset = mov_offset_nl(offset);
+		}else{
+			set_char_in_mem(c,offset);
+			offset+=2;
+		}
+	set_cursor(offset);
+}
+
+void print_back(){
+	int newC = get_cursor() -2;
+	set_char_in_mem(' ',newC);
+	set_cursor(newC);
+}
+
 void nl(){
 	int offset = get_cursor();
 	offset = mov_offset_nl(offset);
 	set_cursor(offset);
+}
+
+void pribnr(){
+print_s(" #     #                                           #    #####  \n");
+print_s(" #  #  # # #    # #####   ####  #    #  ####      ##   #     # \n");
+print_s(" #  #  # # ##   # #    # #    # #    # #         # #         # \n");
+print_s(" #  #  # # # #  # #    # #    # #    #  ####       #    #####  \n");
+print_s(" #  #  # # #  # # #    # #    # # ## #      #      #         # \n");
+print_s(" #  #  # # #   ## #    # #    # ##  ## #    #      #   #     # \n");
+print_s("  ## ##  # #    # #####   ####  #    #  ####     #####  #####  \n");
+print_s("                                                               \n ");
+
+return;
 }
