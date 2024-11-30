@@ -3,16 +3,8 @@
 #include "isr.h"
 #include "idt.h"
 #include "mem.h"
+#include "shell.h"
 
-void execute_command(char* in){
-	if(compare(in,"EXIT")==0){
-		print_s("stoppint the CPU byeee");
-		asm volatile("hlt");
-	}
-	print_s("unknown command ");
-	print_s(in);
-	print_s("\n");
-}
 
 void main() {
     //cls();

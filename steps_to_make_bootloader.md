@@ -1,6 +1,6 @@
 1. Make sure cpu is in real mode since some bioses start it in protected mode idk why
 
-2. Set origin to 7c00 since thats where the bios loads the mbr to setting org doesnt actually affect where the code will be put it is just used to calculate memory addresses correctly for the code
+2. Set origin to 7c00 since thats where the bios loads the mbr. Setting org doesnt actually affect where the code will be put it is just used to calculate memory addresses correctly for the code
 
 
 3. Store bootdrive (stored in dl when bios loads the mbr) and koffset in some variable to be used later
@@ -48,9 +48,9 @@
 	genius logic to why it is setup like this or i simply didnt read the wiki entirly and missed the
 	part where they explained why
 	
-	For a specific segment 
+	For a specific segment (explanations in the code of gdt.asm)
 	bits 0-15  Segment limit /length 
-	bits 16-31 Base address(15:0) the first 16 bits of the base address
+	bits 16-31 Base address(0:15) the first 16 bits of the base address
 	bits 32-39 Base address(16:23) the next 8 bits of the address
 	bits 40-43 Access byte (type privilage etc)
 	bits 44-47 Flags and last 4 bits of segment length
