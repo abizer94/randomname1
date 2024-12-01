@@ -41,7 +41,7 @@ int checkifcmdoropr(char* in, int* funcno, int* indx) {
             }
             j++;
         }
-        if ((in[j] == ' ' || in[j] == '\0') && commands[i][j] == '\0') {
+        if (in[j] == ' ' && commands[i][j] == '\0') {
             *funcno = i;
             *indx = j + 1;
             return 1;
@@ -52,12 +52,13 @@ int checkifcmdoropr(char* in, int* funcno, int* indx) {
 
 
 void exec(char* in){
-    int* funcno;
-    int* indx;
+    if (in[0]=='\0')return ;
+    int funcno;
+    int indx;
     
-    if(!checkifcmdoropr(in,funcno,indx))return;
-    int arg1 = in[*indx];
-    cmdl[(int)*funcno](arg1);
+    if(!checkifcmdoropr(in,&funcno,&indx))return;
+    char* arg1 = in+indx;
+    cmdl[funcno](arg1);
     return;
 
 }
@@ -136,22 +137,23 @@ int turntointarr(const char *input, int *output, int max_size) {
             return -1;
         }
     }
-
+    
     return count;
 }
 
-void add(char* arg){
+void add(char* arg) {
     int sum = 0;
-    int out[10]; 
-    int i = turntointarr(arg,out,10);
-    while(i>0){
-        sum +=out[i];
-        i--;
+    int out[10];
+    int count = turntointarr(arg, out, 10);
+    if (count == -1) {
+        return;
     }
-    char str[10];
-    inttostr(sum,str);
+    for (int i = 0; i < count; i++) {
+        sum += out[i];
+    }
+    char str[20];
+    inttostr(sum, str);
     print_s(str);
-    return;
 }
 
 
