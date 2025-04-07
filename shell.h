@@ -15,4 +15,5 @@ int turntointarr(const char *input, int *output, int max_size);
 int string_to_int(const char *str, int *result);
 int is_digit(char c) ;
 void inttostr(int num, char* str);
+void allocate(char* arg);
 

@@ -5,9 +5,22 @@
 
 typedef void (*CommandFunc)();
 
-CommandFunc cmdl[] = {add,freee,print_s};
-char* commands[] ={"ADD","FREE","PRINTS"};
-
+CommandFunc cmdl[] = {add,freee,print_s/*,allocate*/};
+char* commands[] ={"ADD","FREE","PRINTS"/*,"ALLOCATEM"*/};
+/*
+void allocate(char* arg){
+    int out[10];
+    int count = turntointarr(arg,out,10);
+    int* pointer = (int*) alloc(out[0]);
+    char prt[20];
+    for(int i =1;i<count;i++){
+        pointer[i-1] = out[i];
+        inttostr(pointer[i-1],prt);
+        print_s(prt);
+    }
+    
+}
+*/
 
 void inttostr(int num, char* str) {
     int i = 0, temp, len = 0;

@@ -6,7 +6,7 @@
 #include "shell.h"
 
 
-void main() {
+void main(){
     //cls();
     
     print_s("installing isrs \n");
@@ -42,6 +42,4 @@ void main() {
     stringaddr(ptr2,addr);
     print_s("the second pointer stored");
     print_s(addr);
-    
-    
 }
