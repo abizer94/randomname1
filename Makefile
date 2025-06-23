@@ -6,6 +6,7 @@
 C_SOURCES = $(wildcard *.c drivers/*.c)
 HEADERS = $(wildcard *.h  drivers/*.h )
 OBJ_FILES = ${C_SOURCES:.c=.o interrupts.o}
+RM := rm -f
 
 CC ?= x86_64-elf-gcc
 LD ?= x86_64-elf-ld
