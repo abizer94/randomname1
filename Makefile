@@ -20,8 +20,11 @@ kernel.bin: bl/k_ent.o ${OBJ_FILES}
 os-image.bin: bl/mbr.bin kernel.bin
 	cat $^ > $@
 
-run: os-image.bin
-	qemu-system-i386 -fda $<
+#run: os-image.bin
+#	qemu-system-i386 -fda $<
+run: disk.img
+	qemu-system-i386 -drive format=raw,file=$<
+
 
 echo: os-image.bin
 	xxd $<
@@ -30,10 +33,12 @@ echo: os-image.bin
 kernel.elf: bl/kernel_entry.o ${OBJ_FILES}
 	$(LD) -m elf_i386 -o $@ -Ttext 0x1000 $^
 
-debug: os-image.bin kernel.elf
-	qemu-system-i386 -s -S -fda os-image.bin -d -D guest_errors,int -device ahci &
-	i386-elf-gdb -ex "target remote localhost:1234" -ex "symbol-file kernel.elf"
+disk.img: os-image.bin
+	dd if=os-image.bin of=disk.img bs=512 conv=notrunc
 
+debug: disk.img kernel.elf
+	qemu-system-x86_64 -drive format=raw,file=disk.img
+	
 %.o: %.c ${HEADERS}
 	$(CC) -g -m32 -ffreestanding -fno-pie -fno-stack-protector -c $< -o $@ # -g for debugging
 
