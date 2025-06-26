@@ -1,8 +1,8 @@
 So the tutorial i was following along ended in the last part and now i am free styling meaning i will be making a whole lot of mistakes 
 first make a .img disk using qemu-img switch make file to first output the os image to this disk and use this diskimg as drive instead of the os-image.bin directly 
-now we need to make a driver i will use PCI IDE controller for the drive
+now we need to make a driver i will start with a ATA device and hopefully later upgrade it to use PCI Express controller for the drive (Final goal Nvme SSD)
 
-before we can make a PCI IDE disk driver we need to initialise the PCI BUS 
+before we can make a disk driver we need to initialise the PCI BUS for backwards compatibility for my project its unnecessary because i will be using qemu to simulate hardware so i dont need backward compatibility but i will still do this if only to learn more about PCI config spaces
 
 PCI Bus provides a purely software initialisation for any device on the PCI Bus via the Configuration Address Space 
 All devices on the bus first provide 256 bytes of configuration registers for this
@@ -18,5 +18,8 @@ bit 10-8: function number
 bit 7-2: register number
 bit 1-0: alwasy 0 for 4 bit alignment
 
-make a config space controller to do this
+make a config space controller to do this it is simply sending the bytes to the port and reciving it on the config data with a little bit of bit manipulation
 
+![alt image of bits headers](images/configspace.png)
+
+now to add functions for our PATA IDE drive 

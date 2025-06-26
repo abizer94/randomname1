@@ -1,6 +1,6 @@
 #include "pci.h"
 #include "io.h"
-uint16_t pciReadWord(uint8_t bus ,uint8_t device, uint8_t func, uint8_t reg){
+uint16_t pciReadWord(uint8_t bus ,uint8_t device, uint8_t func, uint8_t offset){
     uint32_t addr;
     uint32_t lbus = (uint32_t)bus; //8 bits for bus
     uint32_t ldev = (uint32_t)device;// 5 bits for device number 
@@ -21,12 +21,25 @@ uint16_t pciReadWord(uint8_t bus ,uint8_t device, uint8_t func, uint8_t reg){
     address | (ldev<<11)
     address | (func<<8)
     address | (80000000) just need to set the first bit we can also do |(1<<32)
-    address | (reg&252)register has to have the last 2 bits 0 we can also do (reg&0xfc) 
+    address | (offset&252)register has to have the last 2 bits 0 we can also do (offset&0xfc) 
     */
-    addr = (uint32_t)((lbus << 16) | (ldev << 11) | (lfunc << 8) | (reg & 0xFC) | ((uint32_t)0x80000000));
+    addr = (uint32_t)((lbus << 16) | (ldev << 11) | (lfunc << 8) | (offset & 0xFC) | ((uint32_t)0x80000000));
     
     port_byte_out(0xCF8,addr);
-    ret = (uint16_t)((port_byte_in(0xCFC)>>((reg&2)*8)) & 0xFFFF);
+    ret = (uint16_t)((port_byte_in(0xCFC)>>((offset&2)*8)) & 0xFFFF);
     //so we may wanto to read either the first or second 16 bits the offset depending on the register offset so if offset is 1 we read the 16 msb but if its 0 we read the 16 lsb  
     return ret;
 }
+
+uint16_t pcicheck(uint8_t bus,uint8_t slot){
+uint16_t vendor,devide;
+vendor=pciReadWord(bus,slot,0,0);
+if(vendor!=0xFFFF){
+device = pciReadWord(bus,slot,0,2);
+//now we want to initialize the PATA IDE drive if that it the one here
+
+
+}
+
+}
+
