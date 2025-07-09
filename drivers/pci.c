@@ -31,20 +31,32 @@ uint32_t pciReadWord(uint8_t bus ,uint8_t devicenum, uint8_t func, uint8_t offse
     return ret;
 }
 
-uint16_t pcicheckvendor(uint8_t bus,uint8_t slot){
-uint16_t vendor,devide;
-vendor=pciReadWord(bus,slot,0,0);
-if(vendor!=0xFFFF){
+uint16_t pcicheckdevices(uint8_t bus,uint8_t slot){
+    uint32_t input;
+    input=pciReadWord(bus,slot,0,0);
 //device = pciReadWord(bus,slot,0,2);
 //now we want to initialize the PATA IDE drive if that it the one here
 
 
-}return (vendor&0xFFFF);
+/*
+for general case if other devices are used but for our case we only care about the IDE drive so we will literally just scan for the subclass code of that for now i will hopefully add more stuff later if i dont abandon this project 
+if((input&0xFFFF)==0xFFFF)return;
 
-}
-
-uint16_t getvendor(uint8_t bus, uint8_t devicenum,uint8_t function){
+if((pciReadWord(bus,slot,0,0xC)<<16)&0xFF!=0){
+    //multiple function device 
     
 }
+*/
+if((input&0xFFFF)!=0xFFFF)initdevice(bus,slot);
 
+
+}
+
+void checkallbuses(uint8_t bus,uint8_t devicenum){
+   for(bus=0;bus<256;bus++){
+        for(devicenum=0;devicenum<32;devicenum++){
+            pcicheckdevices(bus,devicenum);
+        } 
+   }
+}
 

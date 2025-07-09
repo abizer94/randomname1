@@ -19,5 +19,5 @@ init_32bit:
 	mov ebp,0x90000
 	mov esp,ebp
 	
-	call B_32Bit
+	call CODE_SEG:B_32Bit
 	

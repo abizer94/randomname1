@@ -25,7 +25,11 @@ make a config space controller to do this it is simply sending the bytes to the 
 we will need to scan every device and execute the corrosponding function for that device so we need to enmurate through all of em we can just brute force this in our case we will do it by checking all function 0s of all the devices another way is to do a recursive scan to see if its a pci pci bus and scan everything in that bus we dont need that right now I will change this later as i upgrade 
 
 add a check all busses function to loop through all 
+and look for class and subclass 0x01 for both
+
+
 
 now to add functions for our PATA IDE drive 
+
 
 
