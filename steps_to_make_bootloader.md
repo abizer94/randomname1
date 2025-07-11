@@ -95,7 +95,7 @@
     4 bytes lba of the first absolute sector in partition
     4 bytes number of sectors in partition
     
-based on this we edit the asm code in d.asm and mbr.asm i will also need to use lba based addressing instead of chs because a lot of disk tools dont give reliable chs addresses for ssds since they dont actually have cylinders and disks 
+based on this we edit the asm code in d.asm and mbr.asm i will also need to use lba based addressing instead of chs because a lot of disk tools dont give reliable chs addresses for ssds since they dont actually have cylinders and disks so qemu will make some stuff up and that unpredictable 
 
 
 	

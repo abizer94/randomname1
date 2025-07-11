@@ -1,5 +1,6 @@
 #include "disk_driver.h"
 #include "pci.h"
+#include "disp.h"
 
 ide_struct get_bar_addresses(uint8_t bus,uint8_t devnum){
     ide_struct bars;
@@ -10,9 +11,12 @@ ide_struct get_bar_addresses(uint8_t bus,uint8_t devnum){
     bars.BAR4 = pciReadWord(bus,devnum,0,0x20);
     bars.BAR5 = pciReadWord(bus,devnum,0,0x24);
     return bars;
-    
 }
-void initIDE(uint8_t bus,uint8_t slot){
-    
 
+void initIDE(uint8_t bus,uint8_t slot){
+    print_c('A');
+    print_c('B');
+    print_s("there is a disk here \n");
+    
+    return;
 }

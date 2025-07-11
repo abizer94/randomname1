@@ -24,8 +24,7 @@ os-image.bin: bl/mbr.bin kernel.bin
 #run: os-image.bin
 #	qemu-system-i386 -fda $<
 run: disk.img
-	qemu-system-i386 -drive format=raw,file=$<
-
+	qemu-system-i386 -device piix4-ide,id=ide -drive file=$<,if=none,id=drive0 -device ide-hd,drive=drive0,bus=ide.0
 
 echo: os-image.bin
 	xxd $<
@@ -68,7 +67,7 @@ disk.img: bl/mbr.bin kernel.bin
 
 	# 6. Write the FAT32 partition back into the full image at offset 1MiB
 	dd if=fat32part.img of=disk.img bs=512 seek=2048 conv=notrunc
-	dd if=kernel.bin of=disk.img bs=512 seek=2049 conv=notrunc status=progress
+	#dd if=kernel.bin of=disk.img bs=512 seek=2049 conv=notrunc status=progress
 
 	rm -f fat32part.img
 	

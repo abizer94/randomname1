@@ -11,7 +11,17 @@ unsigned char port_byte_in(unsigned short port){
 void port_byte_out(unsigned short port,unsigned char data){ 
      __asm__("out %%al,%%dx"::"a"(data),"d"(port));
 }
-     
+
+void port_dword_out(uint16_t port,uint32_t data){
+    __asm__("outl %%eax, %%dx" : : "a" (data), "d" (port));
+
+}
+uint32_t port_dword_in(uint16_t port){
+    uint32_t result;			
+    __asm__("inl %%dx, %%eax" : "=a" (result) : "d" (port));
+    return result;			      	   
+} 
+    
 void stringaddr(char *ptr, char *buffer) {
     const char *hex_digits = "0123456789ABCDEF";
     uintptr_t address = (uintptr_t)ptr; // Convert char* to integer type

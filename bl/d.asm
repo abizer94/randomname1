@@ -37,7 +37,7 @@ dap_p:
         dw 25
         dw 0x0000
         dw 0x0100
-        dq (0x800 +1)
+        dq (0xFE3)
         
         
 disk_error:

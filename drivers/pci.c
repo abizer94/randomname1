@@ -1,11 +1,14 @@
 #include "pci.h"
 #include "io.h"
+#include "disp.h"
+#include "resolvepci.h"
+
 uint32_t pciReadWord(uint8_t bus ,uint8_t devicenum, uint8_t func, uint8_t offset){
     uint32_t addr;
     uint32_t lbus = (uint32_t)bus; //8 bits for bus
     uint32_t ldev = (uint32_t)devicenum;// 5 bits for device number 
     uint32_t lfunc = (uint32_t)func;//3 bits function number
-    uint16_t ret = 0;
+    uint32_t ret = 0;
     /*
     Config Address layout (32 bit) :
     bit 31: enable bit must be 1 to access read or write if 0 nothing happens
@@ -25,17 +28,17 @@ uint32_t pciReadWord(uint8_t bus ,uint8_t devicenum, uint8_t func, uint8_t offse
     */
     addr = (uint32_t)((lbus << 16) | (ldev << 11) | (lfunc << 8) | (offset & 0xFC) | ((uint32_t)0x80000000));
     
-    port_byte_out(0xCF8,addr);
-    ret = (uint32_t)port_byte_in(0xCFC);
+    port_dword_out(0xCF8,addr);
+    ret = (uint32_t)port_dword_in(0xCFC);
     //so we may wanto to read either the first or second 16 bits the offset depending on the register offset so if offset is 1 we read the 16 msb but if its 0 we read the 16 lsb  
     return ret;
 }
 
-uint16_t pcicheckdevices(uint8_t bus,uint8_t slot){
+void pcicheckdevices(uint8_t bus,uint8_t slot){
     uint32_t input;
-    input=pciReadWord(bus,slot,0,0);
+    
 //device = pciReadWord(bus,slot,0,2);
-//now we want to initialize the PATA IDE drive if that it the one here
+//now we want to initialize the PATA IDE drive if its the one here
 
 
 /*
@@ -47,14 +50,19 @@ if((pciReadWord(bus,slot,0,0xC)<<16)&0xFF!=0){
     
 }
 */
-if((input&0xFFFF)!=0xFFFF)initdevice(bus,slot);
+    for(int i =0;i<8;i++){
+        input=pciReadWord(bus,slot,i,0);
+        if((input&0xFFFF)!=0xFFFF){
+            initdevice(bus,slot);
+        }
+    }
 
 
 }
 
-void checkallbuses(uint8_t bus,uint8_t devicenum){
-   for(bus=0;bus<256;bus++){
-        for(devicenum=0;devicenum<32;devicenum++){
+void checkallbuses(){
+   for(uint16_t bus=0;bus<256;bus++){
+        for(uint16_t devicenum=0;devicenum<32;devicenum++){
             pcicheckdevices(bus,devicenum);
         } 
    }

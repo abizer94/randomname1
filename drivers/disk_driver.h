@@ -87,5 +87,23 @@ uint32_t BAR3;
 uint32_t BAR4;
 uint32_t BAR5;
 }ide_struct;
+
+struct IDEchanreg{
+    unsigned short base; //io base
+    unsigned short ctrl; // Control Base
+    unsigned short bmide; // Bus Master Base 
+    unsigned char nIEN; // No interrupt 
+}channels[2];
+
 ide_struct get_bar_addresses(uint8_t bus,uint8_t devnum);
+
 void initIDE(uint8_t bus,uint8_t slot);
+
+
+
+
+
+
+
+
+
