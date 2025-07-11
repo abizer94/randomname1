@@ -4,6 +4,7 @@
 #include "idt.h"
 #include "mem.h"
 #include "shell.h"
+#include "drivers/pci.h"
 
 
 void main(){
@@ -17,6 +18,8 @@ void main(){
     print_s("init keyboard");
     init_keyboard();
     allocate_first();
+    print_s("checking for pci devices");
+    checkallbuses();
     //cls();
     //pribnr();
     
@@ -42,4 +45,6 @@ void main(){
     stringaddr(ptr2,addr);
     print_s("the second pointer stored");
     print_s(addr);
+    
+    
 }
