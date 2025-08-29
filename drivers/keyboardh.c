@@ -2,6 +2,8 @@
 #include "../isr.h"
 #include <stdbool.h>
 #include "../kernel.h"
+#include "../shell.h"
+
 #define Max_sc 57
 #define back 0x0E
 #define enter 0x1C
@@ -50,7 +52,7 @@ bool backspace(char s[]){
 int compare(char s1[] ,char s2[]){
 	int i;
 	for(i =0;s1[i]==s2[i];i++){
-		if(s1[i]=='\0') return 0;
+		if(s1[i]==' ') return 0;
 	}
 	return s1[i]-s2[i];
 }
@@ -65,7 +67,7 @@ static void keyboard_call(registers_t *rgs){
     	}
     }else if(scancode == enter){
     	nl();
-    	execute_command(keyarr);
+    	exec(keyarr);
     	keyarr[0] = '\0';
     }else{
     char letter = code[(int) scancode];

@@ -3,18 +3,10 @@
 #include "isr.h"
 #include "idt.h"
 #include "mem.h"
+#include "shell.h"
 
-void execute_command(char* in){
-	if(compare(in,"EXIT")==0){
-		print_s("stoppint the CPU byeee");
-		asm volatile("hlt");
-	}
-	print_s("unknown command ");
-	print_s(in);
-	print_s("\n");
-}
 
-void main() {
+void main(){
     //cls();
     
     print_s("installing isrs \n");
@@ -50,6 +42,4 @@ void main() {
     stringaddr(ptr2,addr);
     print_s("the second pointer stored");
     print_s(addr);
-    
-    
 }

@@ -33,5 +33,13 @@
 	d. given the chunk we want to use we first need to decrease the size in the list by size of req + 16  
 	   this is an easy implementation
 	   
-	   
+4. now we want the commands to have arguments i will use ' ' as a delimiter because its just easy to do for the same reason i am not adding pipes forks etc beacuase i am not making this os with multiple threads rn i might do that after i am done with all the drives or it might just be easier to make a new one idk
+	a. change the compare func to compare to a list of commands 
+	(later we want it to compare to all executables in the path of our env but i dont really have 
+	storage so i cant really do that)
+	b. if the first word is a valid command then look at the arguments and feed it to the process
+	
+
+
+
 
